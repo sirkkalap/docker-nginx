@@ -9,6 +9,7 @@ ENV NGINX_VERSION 1.7.10-1~wheezy
 
 RUN apt-get update && \
     apt-get install -y ca-certificates nginx=${NGINX_VERSION} fcgiwrap && \
+    sed -i 's/^\(user .*\)$/user root;/' /etc/nginx/nginx.conf && \
     rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
@@ -19,4 +20,4 @@ VOLUME ["/var/cache/nginx"]
 
 EXPOSE 80 443
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD spawn-fcgi -s /var/run/fcgiwrap.sock /usr/sbin/fcgiwrap && nginx -g daemon\ off\;

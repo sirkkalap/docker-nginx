@@ -8,7 +8,7 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ wheezy nginx" >> /etc/a
 ENV NGINX_VERSION 1.7.10-1~wheezy
 
 RUN apt-get update && \
-    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
+    apt-get install -y ca-certificates nginx=${NGINX_VERSION} fcgiwrap && \
     rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
